@@ -12,9 +12,9 @@ function App() {
   return (
     <BrowserRouter>
      <Fragment>
-      <ButtonAppBar/>
-      <Switch>
-          <Route path='/' component={null}/>
+        <ButtonAppBar/>
+        <Switch>
+          <Route path='/' component={AuthComponent}/>
           <Route path='/auth' component={AuthComponent}/>
           <Route path='/event' component={EventComponent}/>
           <Route path='/booking' component={BookingComponent}/>
