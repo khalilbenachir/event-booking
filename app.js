@@ -5,6 +5,7 @@ const graphqlHttp = require('express-graphql');
 
 
 const mongoose = require('mongoose');
+mongoose.Promise = global.Promise
 
 const graphQlShema=require('./graphql/schema/index');
 const graphqlResolver=require('./graphql/resolvers/index');
@@ -37,7 +38,7 @@ app.use('/graphql', graphqlHttp({
 mongoose.connect(`mongodb+srv://benachir:anahowa12@cluster0-ijowc.mongodb.net/event-booking?retryWrites=true&w=majority`,{ useNewUrlParser: true })
     .then(() => {
         console.log('connected');
-        app.listen(8000);
+        app.listen(8000,()=>console.log('server on 8000'));
     }).catch((err) => {
     console.log(err);
 });
