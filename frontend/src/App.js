@@ -1,10 +1,11 @@
 import React,{Fragment} from 'react';
 import './App.css';
-import {BrowserRouter,Route ,Switch} from 'react-router-dom';
+import {BrowserRouter,Route ,Switch,Redirect} from 'react-router-dom';
 
-import AuthComponent from './pages/auth';
+import SignIn from './component/formcomponent/signin';
 import EventComponent from './pages/event';
 import BookingComponent from './pages/booking';
+import SignUp from './component/formcomponent/signup';
 
 import ButtonAppBar from './component/ButtonAppBar';
 
@@ -14,8 +15,9 @@ function App() {
      <Fragment>
         <ButtonAppBar/>
         <Switch>
-          <Route path='/' component={AuthComponent}/>
-          <Route path='/auth' component={AuthComponent}/>
+          <Redirect from='/' to='/signin' exact/>
+          <Route  path='/signin' component={SignIn}/>
+          <Route  path='/signup' component={SignUp}/>
           <Route path='/event' component={EventComponent}/>
           <Route path='/booking' component={BookingComponent}/>
         </Switch>

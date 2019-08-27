@@ -1,4 +1,5 @@
-import React,{useState} from 'react';
+import React from 'react';
+
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -11,7 +12,12 @@ import Grid from '@material-ui/core/Grid';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
-import axios from 'axios';
+
+
+import { connect } from 'react-redux';
+import { handleUserInput ,login} from '../../redux/user/user-actions';
+
+
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -43,48 +49,12 @@ const useStyles = makeStyles(theme => ({
 }));
 
 
-export default function SignIn() {
+const SignIn=({handleInput,handleSubmit})=> {
   const classes = useStyles();
-  const [val,setValue]=useState({email:'',password:''});
   
-  const handleInputChange = event => {
-    const {name, value} = event.target;
-    console.log(val);
-    setValue({...val,[name]: value});
-  }
-
-  const handleSubmit =(event)=>{
-    event.preventDefault();
-    if(val.email.length === 0 || val.password.length === 0)
-        return;
-    console.log(val.email);
-    const dataQuery= {
-      query : `
-        mutation{
-          createUser(userInput:{email:"${val.email}",
-            password:"${val.password}"}){
-              _id
-              email
-          }
-      }`
-    };
-
-    axios.post('http://localhost:8000/graphql',JSON.stringify(dataQuery),{
-      headers: {
-        'Accept': 'application/json, text/plain, */*',
-        'Content-Type': 'application/json'
-      }
-    })
-    .then(function(response) {
-      console.log(response.data)
-    })
-    .catch(function(error) {
-      console.log(error)
-    })
-    console.log('-------', JSON.stringify(dataQuery));
-  }
-
   return (
+
+
     <Grid container component="main" className={classes.root}>
       <CssBaseline />
       <Grid item xs={false} sm={4} md={7} className={classes.image} />
@@ -102,7 +72,7 @@ export default function SignIn() {
               margin="normal"
               required
               fullWidth
-              onChange={handleInputChange}
+              onChange={handleInput}
               id="email"
               label="Email Address"
               name="email"
@@ -114,7 +84,7 @@ export default function SignIn() {
               margin="normal"
               required
               fullWidth
-              onChange={handleInputChange}
+              onChange={handleInput}
               name="password"
               label="Password"
               type="password"
@@ -141,7 +111,7 @@ export default function SignIn() {
                 </Link>
               </Grid>
               <Grid item>
-                <Link href="#" variant="body2">
+                <Link href="/signup" variant="body2">
                   {"Don't have an account? Sign Up"}
                 </Link>
               </Grid>
@@ -152,3 +122,16 @@ export default function SignIn() {
     </Grid>
   );
 }
+
+const mapStateToProps = state => ({
+  user:state.user
+});
+
+const mapDispatchToProps = dispatch => (
+  {
+    handleInput: (event) => dispatch(handleUserInput(event)),
+    handleSubmit: (event) => dispatch(login(event))
+}
+);
+
+export default  connect(mapStateToProps,mapDispatchToProps)(SignIn);

@@ -7,27 +7,15 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
-import Box from '@material-ui/core/Box';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 
-function Copyright() {
-  return (
-    <Typography variant="body2" color="textSecondary" align="center">
-      {'Copyright © '}
-      <Link color="inherit" href="https://material-ui.com/">
-        Your Website
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'. Built with '}
-      <Link color="inherit" href="https://material-ui.com/">
-        Material-UI.
-      </Link>
-    </Typography>
-  );
-}
+
+import { connect } from 'react-redux';
+import { handleUserInput,signup } from '../../redux/user/user-actions'
+
 
 const useStyles = makeStyles(theme => ({
   '@global': {
@@ -54,8 +42,12 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function SignUp() {
+
+
+
+const SignUp = ({handleInput,handlesignup}) => {
   const classes = useStyles();
+  
 
   return (
     <Container component="main" maxWidth="xs">
@@ -67,7 +59,7 @@ export default function SignUp() {
         <Typography component="h1" variant="h5">
           Sign up
         </Typography>
-        <form className={classes.form} noValidate>
+        <form className={classes.form} onSubmit={handlesignup}>
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>
               <TextField
@@ -76,6 +68,7 @@ export default function SignUp() {
                 variant="outlined"
                 required
                 fullWidth
+                onChange={handleInput}
                 id="firstName"
                 label="First Name"
                 autoFocus
@@ -86,6 +79,7 @@ export default function SignUp() {
                 variant="outlined"
                 required
                 fullWidth
+                onChange={handleInput}
                 id="lastName"
                 label="Last Name"
                 name="lastName"
@@ -97,6 +91,7 @@ export default function SignUp() {
                 variant="outlined"
                 required
                 fullWidth
+                onChange={handleInput}
                 id="email"
                 label="Email Address"
                 name="email"
@@ -108,6 +103,7 @@ export default function SignUp() {
                 variant="outlined"
                 required
                 fullWidth
+                onChange={handleInput}
                 name="password"
                 label="Password"
                 type="password"
@@ -133,7 +129,7 @@ export default function SignUp() {
           </Button>
           <Grid container justify="flex-end">
             <Grid item>
-              <Link href="#" variant="body2">
+              <Link href="/signin" variant="body2">
                 Already have an account? Sign in
               </Link>
             </Grid>
@@ -143,4 +139,17 @@ export default function SignUp() {
      
     </Container>
   );
+  }
+
+const mapStateToProps = state => ({
+  user:state.user
+});
+
+const mapDispatchToProps = dispatch => (
+  {
+    handleInput: (event) => dispatch(handleUserInput(event)),
+    handlesignup:event =>dispatch(signup(event))
 }
+);
+
+export default  connect(mapStateToProps,mapDispatchToProps)(SignUp);

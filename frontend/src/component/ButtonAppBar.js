@@ -6,6 +6,8 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
+import ButtonGroup from '@material-ui/core/ButtonGroup';
+
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -32,8 +34,13 @@ export default function ButtonAppBar() {
           <Typography variant="h6" className={classes.title}>
             BOOKING
           </Typography>
-          <Button color="inherit">Signup</Button>
-          <Button color="inherit">Login</Button>
+          <ButtonGroup              
+             variant="contained"
+              color="primary"
+              aria-label="full-width contained primary button group">
+              <Button href='/signup'>Signup</Button>
+              <Button  href='/signin'>Login</Button>
+          </ButtonGroup>
         </Toolbar>
       </AppBar>
     </div>
