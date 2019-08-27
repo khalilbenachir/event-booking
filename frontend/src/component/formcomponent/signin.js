@@ -57,21 +57,31 @@ export default function SignIn() {
     event.preventDefault();
     if(val.email.length === 0 || val.password.length === 0)
         return;
-
-    const data={
-      query:`mutation{
-        createUser(userInput:{email:"${val.email}"
-          password:"${val.password}"}){
-            _id
-            email
+    console.log(val.email);
+    const dataQuery= {
+      query : `
+        mutation{
+          createUser(userInput:{email:"${val.email}",
+            password:"${val.password}"}){
+              _id
+              email
           }
       }`
     };
-    fetch('http://localhost:8000/graphql',{
-      method: 'POST', //you can set what request you want to be
-      data: JSON.stringify(data)
-    }).then(res=>console.log(res)).catch(err=>console.log(err));
-    console.log('-------',val);
+
+    axios.post('http://localhost:8000/graphql',JSON.stringify(dataQuery),{
+      headers: {
+        'Accept': 'application/json, text/plain, */*',
+        'Content-Type': 'application/json'
+      }
+    })
+    .then(function(response) {
+      console.log(response.data)
+    })
+    .catch(function(error) {
+      console.log(error)
+    })
+    console.log('-------', JSON.stringify(dataQuery));
   }
 
   return (
