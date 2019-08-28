@@ -1,12 +1,13 @@
 import UserActionsTypes from "./user-actions-types";
 
 const INITIAL_STATE = {
-    login:false,
     email:'',
     password:'',
-    firstname:'',
-    lastname:'',
-    userInfo:{}
+    firstName:'',
+    lastName:'',
+    userLoginInfo:{},
+    userSignupInfo:{},
+    error:{}
 };
 
 const userReducer = (state = INITIAL_STATE, action) => {
@@ -16,16 +17,23 @@ const userReducer = (state = INITIAL_STATE, action) => {
           ...state,
           [action.payload.name] : action.payload.value
         };
-    case UserActionsTypes.GET_USER_AUTHENTICATED:
+    case UserActionsTypes.GET_USER_SIGNUP:
         return {
             ...state,
-            userInfo : action.payload
+            userSignupInfo : action.payload
         };
     case UserActionsTypes.GET_USER_LOGIN:
         return {
             ...state,
-            userInfo : action.payload
+            userLoginInfo : action.payload
         };
+    case UserActionsTypes.GET_USER_LOGOUT:
+      return {
+          ...state,
+          userLoginInfo:{},
+          error : action.payload
+      };
+  
     default:
       return state;
   }
@@ -33,12 +41,3 @@ const userReducer = (state = INITIAL_STATE, action) => {
 
 export default userReducer;
 
-
-/*
-case UserActionsTypes.GET_USER_AUTHENTICATED:
-      return {
-        ...state,
-        location: action.payload
-      };
-
-*/ 

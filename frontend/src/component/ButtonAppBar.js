@@ -8,6 +8,9 @@ import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 
+import { connect } from 'react-redux';
+import { logout } from '../redux/user/user-actions';
+
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -20,8 +23,7 @@ const useStyles = makeStyles(theme => ({
     flexGrow: 1,
   },
 }));
-
-export default function ButtonAppBar() {
+const ButtonAppBar=({token,handleLogOut})=> {
   const classes = useStyles();
 
   return (
@@ -38,11 +40,28 @@ export default function ButtonAppBar() {
              variant="contained"
               color="primary"
               aria-label="full-width contained primary button group">
-              <Button href='/signup'>Signup</Button>
-              <Button  href='/signin'>Login</Button>
+              <Button href='/event' >Events</Button>
+              {token && <Button href='/booking'>Bookings</Button>}
+              {!token && <Button href='/signup'>Signup</Button>}
+              {!token && <Button  href='/signin'>Login</Button>}
+              {token && <Button onClick={handleLogOut} >Logout</Button>}
+              
           </ButtonGroup>
         </Toolbar>
       </AppBar>
     </div>
   );
 }
+
+const mapStateToProps = state => ({
+  token:state.user.userLoginInfo.token,
+  userId:state.user.userLoginInfo.userId
+});
+
+const mapDispatchToProps = dispatch => (
+  {
+    handleLogOut: () => dispatch(logout()),
+}
+);
+
+export default connect(mapStateToProps,mapDispatchToProps)(ButtonAppBar);

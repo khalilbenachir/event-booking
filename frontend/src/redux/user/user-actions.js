@@ -35,15 +35,24 @@ export const handleUserInput = event => {
       console.log('---------------------',response.data)
       dispatch({
           type:UserActionsTypes.GET_USER_LOGIN,
-          payload:response.data.data
+          payload:response.data.data.login
       })
     })
     .catch(function(error) {
-      console.log(error)
+      dispatch({
+          type:UserActionsTypes.GET_USER_LOGOUT,
+          payload:error.message
+      })
     })
-    console.log('-------', JSON.stringify(dataQuery));
   }
 };
+
+export const logout = ()=>{
+  return {
+    type:UserActionsTypes.GET_USER_LOGOUT,
+    payload:"log out successfully"
+  }
+}
 
 export const signup = (event)=>{
     return (dispatch, getState) => {
@@ -70,8 +79,8 @@ export const signup = (event)=>{
   .then(function(response) {
     console.log('---------------------',response.data)
     dispatch({
-        type:UserActionsTypes.GET_USER_AUTHENTICATED,
-        payload:response.data.data
+        type:UserActionsTypes.GET_USER_SIGNUP,
+        payload:response.data.data.createUser
     })
   })
   .catch(function(error) {

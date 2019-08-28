@@ -45,7 +45,7 @@ const useStyles = makeStyles(theme => ({
 
 
 
-const SignUp = ({handleInput,handlesignup}) => {
+const SignUp = ({handleInput,handleSignUp}) => {
   const classes = useStyles();
   
 
@@ -59,7 +59,7 @@ const SignUp = ({handleInput,handlesignup}) => {
         <Typography component="h1" variant="h5">
           Sign up
         </Typography>
-        <form className={classes.form} onSubmit={handlesignup}>
+        <form className={classes.form} onSubmit={handleSignUp}>
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>
               <TextField
@@ -148,7 +148,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => (
   {
     handleInput: (event) => dispatch(handleUserInput(event)),
-    handlesignup:event =>dispatch(signup(event))
+    handleSignUp:event =>dispatch(signup(event))
 }
 );
 

@@ -6,24 +6,34 @@ import SignIn from './component/formcomponent/signin';
 import EventComponent from './pages/event';
 import BookingComponent from './pages/booking';
 import SignUp from './component/formcomponent/signup';
-
 import ButtonAppBar from './component/ButtonAppBar';
 
-function App() {
+import {connect } from 'react-redux';
+
+const App =({token})=> {
   return (
     <BrowserRouter>
      <Fragment>
         <ButtonAppBar/>
         <Switch>
-          <Redirect from='/' to='/signin' exact/>
-          <Route  path='/signin' component={SignIn}/>
-          <Route  path='/signup' component={SignUp}/>
+          {!token && <Redirect from='/' to='/signin' exact/>}
+          {token && <Redirect from='/signin' to='/booking' exact/>}
+          {!token && <Route  path='/signin' component={SignIn}/>}
+          {!token && <Route  path='/signup' component={SignUp}/>}
           <Route path='/event' component={EventComponent}/>
-          <Route path='/booking' component={BookingComponent}/>
+          {token && <Route path='/booking' component={BookingComponent}/>}
         </Switch>
      </Fragment>
     </BrowserRouter>
   );
 }
 
-export default App;
+
+const mapStateToProps = state => ({
+  token:state.user.userLoginInfo.token,
+  userId:state.user.userLoginInfo.userId
+});
+
+
+export default connect(mapStateToProps)(App);
+
