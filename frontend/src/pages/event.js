@@ -10,12 +10,17 @@ import {
   KeyboardDatePicker
 } from "@material-ui/pickers";
 
+//component
+import ListComponent from "../component/listComponent";
+
+//redux
 import { connect } from "react-redux";
 import {
   handleUserInput,
   handleDateInput,
   handleCreateEvent,
-  handleAmountInput
+  handleAmountInput,
+  fetchEventCreated
 } from "../redux/user/user-actions";
 
 function getModalStyle() {
@@ -36,6 +41,7 @@ const useStyles = makeStyles(theme => ({
   root: {
     flex: 1,
     display: "flex",
+    flexDirection: "column",
     justifyContent: "center",
     alignItems: "center",
     width: "100%",
@@ -51,6 +57,7 @@ const useStyles = makeStyles(theme => ({
     borderStyle: "solid",
     borderColor: "#f50057",
     borderRadius: 4,
+    marginBottom: "3rem",
     boxShadow:
       "0px 1px 5px 0px rgba(0,0,0,0.2), 0px 2px 2px 0px rgba(0,0,0,0.14), 0px 3px 1px -2px rgba(0,0,0,0.12)"
   },
@@ -83,7 +90,11 @@ const EventComponent = ({
   handleInput,
   handleDateInput,
   handleEvent,
-  handleamountInput
+  handleamountInput,
+  token,
+  events,
+  getEventCreated,
+  date
 }) => {
   const classes = useStyles();
 
@@ -98,19 +109,26 @@ const EventComponent = ({
     setOpen(false);
   };
 
+  React.useEffect(() => {
+    getEventCreated();
+  },[events]);
+
   return (
     <div className={classes.root}>
-      <div className={classes.boxContainer}>
-        <p>Share your own events</p>
-        <Button
-          variant="contained"
-          color="secondary"
-          className={classes.button}
-          onClick={handleOpen}
-        >
-          Create event
-        </Button>
-      </div>
+      {token &&
+        <div className={classes.boxContainer}>
+          <p>Share your own events</p>
+          <Button
+            variant="contained"
+            color="secondary"
+            className={classes.button}
+            onClick={handleOpen}
+          >
+            Create event
+          </Button>
+        </div>
+      }
+      {events.length > 0 && <ListComponent events={events} />}
       <Modal
         aria-labelledby="simple-modal-title"
         aria-describedby="simple-modal-description"
@@ -157,6 +175,7 @@ const EventComponent = ({
                   variant="inline"
                   format="MM/dd/yyyy"
                   required
+                  value={new Date(date)}
                   fullWidth
                   margin="normal"
                   id="date-picker-inline"
@@ -213,14 +232,17 @@ const EventComponent = ({
 };
 
 const mapStateToProps = state => ({
-  user: state.user
+  token: state.user.userLoginInfo.token,
+  events: state.user.eventCreated,
+  date: state.user.date
 });
 
 const mapDispatchToProps = dispatch => ({
   handleInput: event => dispatch(handleUserInput(event)),
   handleEvent: event => dispatch(handleCreateEvent(event)),
   handleDateInput: date => dispatch(handleDateInput(date)),
-  handleamountInput: amount => dispatch(handleAmountInput(amount))
+  handleamountInput: amount => dispatch(handleAmountInput(amount)),
+  getEventCreated: event => dispatch(fetchEventCreated(event))
 });
 export default connect(
   mapStateToProps,

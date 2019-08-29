@@ -1,6 +1,6 @@
 const Event = require('../../models/event');
 const User = require('../../models/user');
-const { transformEvent,events, user,transformBooking,singleEvent} =require('./merge')
+const { transformEvent} =require('./merge')
 
 module.exports = {
     events: async () => {

@@ -65,6 +65,45 @@ export const login = event => {
   };
 };
 
+export const fetchEventCreated = event => {
+  return dispatch => {
+    const dataQuery = {
+      query: `
+            query{
+              events{
+                title
+                description
+                price
+                date
+                
+                }
+            }`
+    };
+
+    axios
+      .post("http://localhost:8000/graphql", JSON.stringify(dataQuery), {
+        headers: {
+          Accept: "application/json, text/plain, */*",
+          "Content-Type": "application/json"
+        }
+      })
+      .then(function(response) {
+        console.log("===============");
+        dispatch({
+          type: UserActionsTypes.GET_EVENT_CREATED,
+          payload: response.data.data.events
+        });
+       
+      })
+      .catch(function(error) {
+        dispatch({
+          type: UserActionsTypes.GET_USER_LOGOUT,
+          payload: error.message
+        });
+      });
+  };
+};
+
 export const handleCreateEvent = event => {
   return (dispatch, getState) => {
     event.preventDefault();
@@ -107,6 +146,7 @@ export const handleCreateEvent = event => {
           type: UserActionsTypes.HANDLE_CREATE_EVENT,
           payload: response.data.data.createEvent
         });
+        
       })
       .catch(function(error) {
         console.log(error.message);

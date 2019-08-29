@@ -8,11 +8,12 @@ const INITIAL_STATE = {
   userLoginInfo: {},
   userSignupInfo: {},
   error: {},
-  date: {},
+  date: new Date(),
   description: {},
   amount: 0,
   title: {},
-  eventInfo: {}
+  eventInfo: {},
+  eventCreated:[]
 };
 
 const userReducer = (state = INITIAL_STATE, action) => {
@@ -22,6 +23,11 @@ const userReducer = (state = INITIAL_STATE, action) => {
         ...state,
         [action.payload.name]: action.payload.value
       };
+      case UserActionsTypes.GET_EVENT_CREATED:
+        return {
+          ...state,
+          eventCreated: action.payload
+        };
     case UserActionsTypes.HANDLE_CREATE_EVENT:
       return {
         ...state,
