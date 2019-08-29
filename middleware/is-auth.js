@@ -1,25 +1,26 @@
 const jwt=require('jsonwebtoken');
-module.exports=(req,res,next)=>{
-    const authHeader=req.get('Authorization');
+module.exports = async(req, res, next) => {
+    const authHeader = req.get('authorization');
     if(!authHeader){
-        req.isAuth=false;
+        req.isAuth = false;
         return next();
     }
-    const token=authHeader.split(' ')[1];
+    const token = authHeader.split(' ')[1];
+
     if(!token || token == ''){
-        req.isAuth=false;
+        req.isAuth = false;
         return next();
     }
 
     let decodedToken;
     try {
-        decodedToken= jwt.verify(token,'somesuperlkeyapijson');
+        decodedToken=await jwt.verify(token,"somesuperlkeyapijson");
 
     } catch (error) {
         req.isAuth=false;
         return next();
     }
-    if(!decodedToken){
+    if (!decodedToken) {
         req.isAuth=false;
         return next();
 

@@ -10,14 +10,16 @@ import ButtonAppBar from './component/ButtonAppBar';
 
 import {connect } from 'react-redux';
 
-const App =({token})=> {
+const App = ({ token }) => {
   return (
     <BrowserRouter>
      <Fragment>
-        <ButtonAppBar/>
+        <ButtonAppBar />
+        {  console.log(token, '------token---------')}
         <Switch>
           {!token && <Redirect from='/' to='/signin' exact/>}
-          {token && <Redirect from='/signin' to='/booking' exact/>}
+          {token && <Redirect from='/signin' to='/event' exact/>}
+          {token && <Redirect from='/auth' to='/event' exact/>}
           {!token && <Route  path='/signin' component={SignIn}/>}
           {!token && <Route  path='/signup' component={SignUp}/>}
           <Route path='/event' component={EventComponent}/>

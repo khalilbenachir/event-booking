@@ -16,7 +16,7 @@ module.exports = {
         }
     },
     
-    createEvent: async (args,req) => {
+    createEvent: async (args, req) => {
         if(!req.isAuth){
             throw new Error("unAuthorized");
         }
@@ -32,7 +32,6 @@ module.exports = {
 
 
             const result = await event.save();
-            console.log(result);
             createdEvent = transformEvent(result);
             const user = await User.findById(req.userId);
 
