@@ -11,8 +11,10 @@ const graphqlResolver = require("./graphql/resolvers/index");
 
 const isAuth = require("./middleware/is-auth");
 const cors = require("cors");
+const dotenv = require('dotenv');
 
 const app = express();
+dotenv.config();
 
 app.use(bearerToken());
 app.use(
@@ -37,7 +39,7 @@ app.use(
 
 mongoose
   .connect(
-    `mongodb+srv://benachir:anahowa12@cluster0-ijowc.mongodb.net/event-booking?retryWrites=true&w=majority`,
+    `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@cluster0-ijowc.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`,
     { useNewUrlParser: true }
   )
   .then(() => {
