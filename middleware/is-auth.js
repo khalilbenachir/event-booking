@@ -14,7 +14,7 @@ module.exports = async(req, res, next) => {
 
     let decodedToken;
     try {
-        decodedToken=await jwt.verify(token,"somesuperlkeyapijson");
+        decodedToken=await jwt.verify(token,process.env.JWT_KEY);
 
     } catch (error) {
         req.isAuth=false;

@@ -69,15 +69,19 @@ export const fetchEventCreated = event => {
   return dispatch => {
     const dataQuery = {
       query: `
-            query{
-              events{
-                title
-                description
-                price
-                date
-                
-                }
-            }`
+      query{
+        events{
+          _id
+          title
+          description
+          price
+          date
+           creator{
+            _id
+            email
+          }
+          }
+      }`
     };
 
     axios
@@ -93,7 +97,6 @@ export const fetchEventCreated = event => {
           type: UserActionsTypes.GET_EVENT_CREATED,
           payload: response.data.data.events
         });
-       
       })
       .catch(function(error) {
         dispatch({
@@ -146,7 +149,6 @@ export const handleCreateEvent = event => {
           type: UserActionsTypes.HANDLE_CREATE_EVENT,
           payload: response.data.data.createEvent
         });
-        
       })
       .catch(function(error) {
         console.log(error.message);

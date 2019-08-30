@@ -57,6 +57,8 @@ const userReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         userLoginInfo: {},
+        eventCreated: [],
+        eventInfo:{},
         error: action.payload
       };
 

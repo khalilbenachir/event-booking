@@ -11,7 +11,7 @@ const graphqlResolver = require("./graphql/resolvers/index");
 
 const isAuth = require("./middleware/is-auth");
 const cors = require("cors");
-const dotenv = require('dotenv');
+const dotenv = require("dotenv");
 
 const app = express();
 dotenv.config();

@@ -37,7 +37,7 @@ module.exports = {
     if (!isQual) throw Error("password doesn't match");
     const token = await jwt.sign(
       { userId: user.id, email: email },
-      "somesuperlkeyapijson",
+      process.env.JWT_KEY,
       { expiresIn: "1h" }
     );   
     return {

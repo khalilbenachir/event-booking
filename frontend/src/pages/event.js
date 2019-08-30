@@ -94,7 +94,8 @@ const EventComponent = ({
   token,
   events,
   getEventCreated,
-  date
+  date,
+  email
 }) => {
   const classes = useStyles();
 
@@ -111,11 +112,11 @@ const EventComponent = ({
 
   React.useEffect(() => {
     getEventCreated();
-  },[events]);
+  }, [!open,open]);
 
   return (
     <div className={classes.root}>
-      {token &&
+      {token && (
         <div className={classes.boxContainer}>
           <p>Share your own events</p>
           <Button
@@ -127,8 +128,8 @@ const EventComponent = ({
             Create event
           </Button>
         </div>
-      }
-      {events.length > 0 && <ListComponent events={events} />}
+      )}
+      {events.length > 0 && <ListComponent email={email} events={events} />}
       <Modal
         aria-labelledby="simple-modal-title"
         aria-describedby="simple-modal-description"
@@ -234,7 +235,8 @@ const EventComponent = ({
 const mapStateToProps = state => ({
   token: state.user.userLoginInfo.token,
   events: state.user.eventCreated,
-  date: state.user.date
+  date: state.user.date,
+  email: state.user.email
 });
 
 const mapDispatchToProps = dispatch => ({
