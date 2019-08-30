@@ -6,6 +6,8 @@ import ListItemText from "@material-ui/core/ListItemText";
 import Divider from "@material-ui/core/Divider";
 import Button from "@material-ui/core/Button";
 
+import ViewDetails from './viewDetails';
+
 const useStyles = makeStyles(theme => ({
   root: {
     width: "100%",
@@ -33,13 +35,22 @@ const useStyles = makeStyles(theme => ({
 
 const EventList = ({ events, email, emailSaved }) => {
   const classes = useStyles();
+  const [open, setOpen] = React.useState(false);
+
+  const handleOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
   const eventsList = events.map((event, index) => {
     return (
       <React.Fragment key={event._id}>
         <ListItem className={classes.listItem}>
           <ListItemText
             primary={event.title.toUpperCase()}
-            secondary={`${event.price}$`}
+            secondary={`${event.price}$ - ${new Date(event.date).toLocaleDateString()}`}
           />
           <div className={classes.details}>
             {email === event.creator.email ? (
@@ -48,12 +59,14 @@ const EventList = ({ events, email, emailSaved }) => {
               <Button
                 variant="outlined"
                 color="secondary"
-                className={classes.button}
+                  className={classes.button}
+                  onClick={handleOpen}
               >
                 more details
               </Button>
             )}
           </div>
+          <ViewDetails event={event} open={open} handleClose={handleClose}/>
         </ListItem>
         {events.length !== index + 1 ? <Divider /> : ""}
       </React.Fragment>
