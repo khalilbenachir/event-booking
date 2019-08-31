@@ -13,13 +13,14 @@ const transformEvent = async eventid => {
 };
 
 const transformBooking = booking => {
+  console.log('boooook---------', booking);
   return {
     ...booking._doc,
     _id: booking.id,
     user: user.bind(this, booking._doc.user),
     event: singleEvent.bind(this, booking._doc.event),
-    createdAt: new Date(booking._doc.createdAt).toISOString(),
-    updatedAt: new Date(booking._doc.updatedAt).toISOString()
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString()
   };
 };
 

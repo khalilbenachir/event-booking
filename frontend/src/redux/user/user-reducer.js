@@ -13,7 +13,8 @@ const INITIAL_STATE = {
   amount: 0,
   title: {},
   eventInfo: {},
-  eventCreated:[]
+  eventCreated: [],
+  bookEvent: {}
 };
 
 const userReducer = (state = INITIAL_STATE, action) => {
@@ -23,11 +24,16 @@ const userReducer = (state = INITIAL_STATE, action) => {
         ...state,
         [action.payload.name]: action.payload.value
       };
-      case UserActionsTypes.GET_EVENT_CREATED:
-        return {
-          ...state,
-          eventCreated: action.payload
-        };
+    case UserActionsTypes.GET_EVENT_CREATED:
+      return {
+        ...state,
+        eventCreated: action.payload
+      };
+    case UserActionsTypes.HANDLE_BOOK_EVENT:
+      return {
+        ...state,
+        bookEvent: action.payload
+      };
     case UserActionsTypes.HANDLE_CREATE_EVENT:
       return {
         ...state,
@@ -58,7 +64,7 @@ const userReducer = (state = INITIAL_STATE, action) => {
         ...state,
         userLoginInfo: {},
         eventCreated: [],
-        eventInfo:{},
+        eventInfo: {},
         error: action.payload
       };
 

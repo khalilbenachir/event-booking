@@ -24,7 +24,8 @@ module.exports = {
         if(!req.isAuth){
             throw new Error("unAuthorized");
         }
-        const fitchedEvent = await Event.findOne({_id: args.eventId});
+        const fitchedEvent = await Event.findOne({ _id: args.eventId });
+        console.log('--------fitchedEvent-----', fitchedEvent);
         const booking = await new Booking({
             event: fitchedEvent,
             user: req.userId

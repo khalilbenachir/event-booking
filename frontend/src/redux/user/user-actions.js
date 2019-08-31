@@ -127,6 +127,7 @@ export const handleCreateEvent = event => {
                 price:"${parseFloat(getState().user.amount.toString())}",
                 date:"${getState().user.date}"})
                 {
+                  _id
                   title
                   description
                   price
@@ -148,6 +149,44 @@ export const handleCreateEvent = event => {
         dispatch({
           type: UserActionsTypes.HANDLE_CREATE_EVENT,
           payload: response.data.data.createEvent
+        });
+      })
+      .catch(function(error) {
+        console.log(error.message);
+      });
+  };
+};
+
+export const handleBookEvent = eventId => {
+  return (dispatch, getState) => {
+    console.log("--------eventid------", eventId);
+    const dataQuery = {
+      query: `
+            mutation{
+              bookEvent(eventId : "${eventId}"){
+                _id
+                createdAt
+                updatedAt
+                event{
+                  title
+                  date
+                }
+              }
+        }`
+    };
+
+    axios
+      .post("http://localhost:8000/graphql", JSON.stringify(dataQuery), {
+        headers: {
+          Accept: "application/json, text/plain, */*",
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + getState().user.userLoginInfo.token
+        }
+      })
+      .then(function(response) {
+        dispatch({
+          type: UserActionsTypes.HANDLE_BOOK_EVENT,
+          payload: response.data.data.bookEvent
         });
       })
       .catch(function(error) {
@@ -178,6 +217,7 @@ export const signup = event => {
               password:"${getState().user.password}"}){
               _id
               email
+              
           }
       }`
     };

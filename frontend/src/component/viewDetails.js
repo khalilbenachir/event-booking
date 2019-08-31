@@ -8,6 +8,9 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import Icon from "@material-ui/core/Icon";
 import Typography from "@material-ui/core/Typography";
 
+import { handleBookEvent } from "../redux/user/user-actions";
+import { connect } from "react-redux";
+
 function getModalStyle() {
   const top = 50;
   const left = 50;
@@ -58,11 +61,12 @@ const ViewDetails = props => {
   // getModalStyle is not a pure function, we roll the style only on the first render
   const [modalStyle] = React.useState(getModalStyle);
 
-  const { title, description } = props.event;
-  const { open, handleClose } = props;
+  const { title, description, _id } = props.event;
+  const { open, handleClose, handleBookEvent, token } = props;
 
   return (
     <div>
+      {console.log("-----------_id__-------------", _id)}
       <Modal
         aria-labelledby="simple-modal-title"
         aria-describedby="simple-modal-description"
@@ -85,17 +89,19 @@ const ViewDetails = props => {
             </Paper>
           </div>
           <div className={classes.model__actions}>
-            <Button
-              variant="contained"
-              color="primary"
-              className={classes.button}
-              type="submit"
-              onClick={handleClose}
-            >
-              Save
-              {/* This Button uses a Font Icon, see the installation instructions in the docs. */}
-              <Icon className={classes.rightIcon}>send</Icon>
-            </Button>
+            {token && (
+              <Button
+                variant="contained"
+                color="primary"
+                className={classes.button}
+                type="submit"
+                onClick={() => handleBookEvent(_id)}
+              >
+                Book
+                {/* This Button uses a Font Icon, see the installation instructions in the docs. */}
+                <Icon className={classes.rightIcon}>send</Icon>
+              </Button>
+            )}
             <Button
               variant="contained"
               color="secondary"
@@ -111,4 +117,15 @@ const ViewDetails = props => {
     </div>
   );
 };
-export default ViewDetails;
+
+const mapStateToProps = state => ({
+  token: state.user.userLoginInfo.token
+});
+
+const mapDispatchToProps = dispatch => ({
+  handleBookEvent: id => dispatch(handleBookEvent(id))
+});
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ViewDetails);
